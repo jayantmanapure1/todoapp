@@ -9,9 +9,22 @@ function App() {
   function addTask() {
     //setTasks(tasks => [...tasks, task]);
     //usig object
-    setTasks(tasks => [...tasks, { 'title': task, 'category': category }]);
+    setTasks(tasks => [...tasks, { 'title': task, 'category': category , 'id' : tasks.length }]);
     setTask('');
 
+  }
+
+  function deletetask(id){
+    const temp = [...tasks];
+
+    temp.map ((task , index) =>{
+      if(id === task.id){
+        temp.splice(index , 1);
+        setTasks(temp);
+      }
+    })
+    
+    console.log(id);
   }
   function clearalltask() {
     setTasks([]);
@@ -28,8 +41,8 @@ function App() {
     <>
       
       <div className='container'>
-        <h1 className='display-4 text-center heading' >To Do List</h1>
-        <div className='row '>
+        <h1 className='display-5 text-center heading' >✨✨ To Do App ✨✨</h1>
+        <div className='row mt-5 '>
           <div className='col-md-5  ms-1 text-center'><h3>Add Task</h3>
             <div>
               <input type="text" name="task" className='form-control mt-3' placeholder="Add Task"
@@ -42,12 +55,13 @@ function App() {
                 <option value="🕹️">Other 🕹️</option>
               </select>
               <button type='button' className='btn btn-warning w-100 mt-3 mb-2' onClick={addTask}>Add Task</button>
+              <button type='button' className='btn btn-primary w-100 mt-3 mb-2' onClick={addTask}>Update Task</button>
               <button type='button' className='btn btn-danger w-100 mt-2 mb-2' onClick={clearalltask}>Clear All Task</button>
             </div>
           </div>
           <div className='col-md-5  show  '>
             <h3 className='text-center'>Show Task</h3>
-            <ol> {
+            <div> {
               tasks.map((task) => {
 
                 let cname = `type1`;
@@ -62,13 +76,16 @@ function App() {
                 }
                 return (
                   <div className={`task ${cname}`} key={task.title}>
-                    <li key={task} className='ms-2'>{task.category}{task.title}</li>
+                     <h5 key={task} className='ms-2'>
+                     <i className="fas fa-trash icon"  onClick={() => { deletetask(task.id) }}></i> {"  "}
+                    {task.category}{task.title} {"    "}
+                    <i className="fas fa-pen-square icon"  ></i></h5>
                   </div>
 
                 );
               })
             }
-            </ol>
+            </div>
 
           </div>
         </div>
@@ -80,3 +97,4 @@ function App() {
 }
 
 export default App;
+
